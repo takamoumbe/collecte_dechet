@@ -7,17 +7,28 @@ use CodeIgniter\Model;
 class DechetModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'dechets';
-    protected $primaryKey       = 'id';
+    protected $table            = 'dechet';
+    protected $primaryKey       = 'id_dechet';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+       'id_dechet', 
+       'type_dechet', 
+       'quantite', 
+       'description', 
+       'status_dechet',
+       'id_client',
+       'id_user',
+       'created_at', 
+       'updated_at', 
+       'deleted_at', 
+    ];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
