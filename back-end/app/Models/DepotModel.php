@@ -7,17 +7,26 @@ use CodeIgniter\Model;
 class DepotModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'depots';
-    protected $primaryKey       = 'id';
+    protected $table            = 'depot';
+    protected $primaryKey       = 'id_depot';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id_depot',
+        'date',
+        'status_depot',
+        'id_tache',
+        'id_user',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
