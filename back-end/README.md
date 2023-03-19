@@ -64,3 +64,5 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 
 ## code for bitbucket
 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
+
+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
