@@ -31,6 +31,15 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
+
+/*
+ * --------------------------------------------------------------------
+ * Route For Mobile
+ * --------------------------------------------------------------------
+ */
+    $routes->post('SendDechet', 'DechetController::sendDechet');
+
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

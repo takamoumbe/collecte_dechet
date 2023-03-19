@@ -1,13 +1,17 @@
 <?php
 
 namespace App\Controllers;
-use CodeIgniter\RESTful\ResourceController;
+use CodeIgniter\RESTful\ResourcePresenter;
+use CodeIgniter\API\ResponseTrait;
 use App\Models\UserModel;
+use App\Models\DechetModel;
+use App\Models\ClientModel;
 
 
-class DechetController extends ResourceController{
+class DechetController extends ResourcePresenter{
     
-    
+    use ResponseTrait;
+
     public function list() {
         $model = new UserModel();
         $data = $model->findAll();
@@ -74,6 +78,75 @@ class DechetController extends ResourceController{
         $model->update($id, $data);
         $response = ['status' => 200, 'error' => null];
         return $this->respond($response);
+    }
+
+
+
+    /*
+     * --------------------------------------------------------------------
+     * Function for mobile
+     * --------------------------------------------------------------------
+    */
+
+    /*@---> 1 send dechet
+     **
+     *@Retrun = response
+     **
+     *@use  = 
+    */
+    public function sendDechet(){
+
+        $DechetModel = new DechetModel();
+        $ClientModel = new ClientModel();
+
+        $rules = [
+            'type_dechet'      => [
+                'rules'               => 'required'
+            ],
+            'description'      => [
+                'rules'               => 'required'
+            ],
+            'contact'          => [
+                'rules'               => 'required'
+            ]
+        ];
+
+
+        if($this->validate($rules)){
+
+            
+            /*====================== IMPORT PHOTO ======================*/
+            $photo = $this->request->getFile('image');
+            $profile_photo = $photo->getName();
+            // Renaming file before upload
+            $temp_photo = explode(".",$profile_photo);
+            $new_photo_name = 'Dechet'.date("Y-m-d H:m:s").round(microtime(true)) . '.' . end($temp_photo);
+            $photo->move("photoDechet", $new_photo_name);
+
+            // insertion des information du client
+
+            // insertion du dechet
+            $type_dechet = $this->request->getVar('type_dechet');
+            $description = $this->request->getVar('description');
+            $contact     = $this->request->getVar('contact');
+
+
+            $response = [
+                'status'    => 200,
+                'success'   => true,
+                'msg'       => 'Dechet envoyer '.$new_photo_name
+             ];
+              return $this->respond($response);
+
+        }else{
+             $response = [
+                'status'    => 500,
+                'success'   => false,
+                'msg'       => 'Informations Invalides '
+             ];
+              return $this->respond($response);
+        }
+
     }
 
 }
