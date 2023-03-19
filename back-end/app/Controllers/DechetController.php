@@ -9,7 +9,7 @@ use App\Models\ClientModel;
 
 
 class DechetController extends ResourcePresenter{
-    
+     
     use ResponseTrait;
 
     public function list() {
@@ -107,7 +107,7 @@ class DechetController extends ResourcePresenter{
                 'rules'               => 'required'
             ],
             'contact'          => [
-                'rules'               => 'required'
+                'rules'               => 'required' 
             ]
         ];
 
@@ -123,18 +123,42 @@ class DechetController extends ResourcePresenter{
             $new_photo_name = 'Dechet'.date("Y-m-d H:m:s").round(microtime(true)) . '.' . end($temp_photo);
             $photo->move("photoDechet", $new_photo_name);
 
-            // insertion des information du client
-
             // insertion du dechet
             $type_dechet = $this->request->getVar('type_dechet');
             $description = $this->request->getVar('description');
             $contact     = $this->request->getVar('contact');
 
+            // insertion des information du client
+            $data = [
+                'telephone'     => $contact,
+                'status_client' => 0,
+                'created_at'    => date("Y-m-d H:m:s"),
+                'updated_at'    => date("Y-m-d H:m:s")
+            ];
+
+            $ClientModel->save($data);
+
+            $id_client = $ClientModel->insertId();
+
+            // insertion des dechet
+
+            $data = [
+                'type_dechet'   => $type_dechet,
+                'quantite'      => 0,
+                'description'   => $description,
+                'status_dechet' => 0,
+                'id_client'     => $id_client,
+                'id_user'       => 0,
+                'created_at'    => date("Y-m-d H:m:s"),
+                'updated_at'    => date("Y-m-d H:m:s")
+            ];
+
+            $DechetModel->save($data);
 
             $response = [
                 'status'    => 200,
                 'success'   => true,
-                'msg'       => 'Dechet envoyer '.$new_photo_name
+                'msg'       => 'Dechet envoyer '
              ];
               return $this->respond($response);
 

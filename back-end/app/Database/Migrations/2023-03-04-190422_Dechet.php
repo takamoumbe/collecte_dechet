@@ -15,7 +15,10 @@ class Dechet extends Migration
             ],                                            
             'quantite'          => [                                  
                 'type'                  => 'INT'                          
-            ],                                   
+            ], 
+            'type_dechet'       => [                                 
+                'type'                  => 'TEXT', 
+            ],                                  
             'description'       => [                                 
                 'type'                  => 'TEXT', 
             ],

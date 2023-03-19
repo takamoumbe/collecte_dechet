@@ -46,4 +46,12 @@ class ClientModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function insertId(){
+
+        $builder = $this->db->insertID();
+        
+        return $builder;
+
+    }
 }
