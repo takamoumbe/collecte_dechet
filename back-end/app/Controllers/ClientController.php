@@ -2,13 +2,12 @@
 
 namespace App\Controllers;
 use CodeIgniter\RESTful\ResourceController;
-use App\Models\DechetModel;
+use App\Models\ClientModel;
 
 class ClientController extends ResourceController{
 
-    
     public function list() {
-        $model = new DechetModel();
+        $model = new ClientModel();
         $data = $model->findAll();
         return $this->respond($data);
     }
@@ -16,34 +15,43 @@ class ClientController extends ResourceController{
     
 
     public function show($id = null) {
-        $model = new DechetModel();
+        $model = new ClientModel();
         $data = $model->getWhere(['id_client' => $id])->getResult();
         if($data){
             return $this->respond($data);
         }
         else{
-            return $this->failNotFound('Aucune donnée trouvé avec l\'identifiant : '.$id);
+            return $this->failNotFound('Aucun client trouvé avec l\'identifiant : '.$id);
         }
     }
-    
-
-    
-    public function create()  {
-        $model = new DechetModel();
-        $data = [
-            'telephone'     => $this->request->getVar('telephone'),
-            'status_client' => 0,
-            'created_at'    => date('d/m/Y h:i:s'),
-        ];
-        $model->insert($data);
-        $response = ['status' => 201, 'error' => null];
-        return $this->respondCreated($response);
-    }
-
-
    
+    
+
+    public function create() {
+        helper(['form']);
+        $rules = ['telephone' => 'required|numeric|is_unique[client.telephone]'];
+
+        if($this->validate($rules)){
+            $model = new ClientModel();
+
+            $data = [
+                'telephone'     => $this->request->getVar('telephone'),
+                'status_client' => 0,
+                'created_at'    => date('d/m/Y h:i:s'),
+            ];
+            $model->insert($data);
+            $response = ['status' => 201, 'error' => false];
+            return $this->respondCreated($response);
+        }else{
+            $response = ['status' => 201, 'error' => false];
+            return $this->respondCreated($response);
+        }        
+    }
+   
+    
+
     public function update($id = null) {
-        $model = new DechetModel();
+        $model = new ClientModel();
         $input = $this->request->getRawInput();
         $data = [
             'telephone'     => $this->request->getVar('telephone'),

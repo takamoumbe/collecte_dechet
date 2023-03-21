@@ -11,8 +11,10 @@ class DepotController extends ResourceController{
         $data = $model->findAll();
         return $this->respond($data);
     }
-   
+    
+    
 
+    
     public function show($id = null) {
         $model = new DepotModel();
         $data = $model->getWhere(['id_depot' => $id])->getResult();
@@ -23,6 +25,7 @@ class DepotController extends ResourceController{
             return $this->failNotFound('Aucune donnée trouvé avec l\'identifiant : '.$id);
         }
     }
+    
     
 
     
@@ -40,9 +43,10 @@ class DepotController extends ResourceController{
         $response = ['status' => 201, 'error' => null];
         return $this->respondCreated($response);
     }
+    
+    
 
-
-   
+    
     public function update($id = null) {
         $model = new DepotModel();
         $data = [

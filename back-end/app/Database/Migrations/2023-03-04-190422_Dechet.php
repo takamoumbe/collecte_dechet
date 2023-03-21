@@ -29,26 +29,25 @@ class Dechet extends Migration
                 'type'                  => 'INT', 
             ], 
             'created_at'        => [                                          
-                'type'                  => 'TIMESTAMP'                         
+                'type'                  => 'TEXT'                         
             ],                                             
             'updated_at'        => [                                  
-                'type'                  => 'TIMESTAMP'                         
+                'type'                  => 'TEXT'                         
             ],                                             
             'deleted_at'        => [                                  
-                'type'                  => 'TIMESTAMP'                         
+                'type'                  => 'TEXT'                         
             ],                                             
          ]); 
 
         $this->forge->addPrimaryKey('id_dechet'); 
         $this->forge->addForeignKey('id_client', 'client', 'id_client');                        
-        // $this->forge->addForeignKey('id_user', 'user', 'id_user'); 
         $this->forge->createTable('dechet');                            
     }  
     
 
     public function down()
     {
-         this->forge->dropTable('dechet');
+        $this->forge->dropTable('dechet');
     }
     
 }

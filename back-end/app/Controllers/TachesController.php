@@ -35,6 +35,7 @@ class TachesController extends ResourceController{
             $variable = ','.$dechet[$i];
         }
 
+
         $data = [
             'id_dechet'     => $variable,
             'id_user'       => $this->request->getVar('id_user'),
@@ -73,3 +74,5 @@ class TachesController extends ResourceController{
     }
 
 }
+
+

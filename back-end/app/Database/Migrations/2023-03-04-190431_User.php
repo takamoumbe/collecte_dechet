@@ -35,13 +35,13 @@ class User extends Migration
                 'type'                  => 'INT', 
             ], 
             'created_at'            => [                                          
-                'type'                  => 'TIMESTAMP'                         
+                'type'                  => 'TEXT'                         
             ],                                             
             'updated_at'            => [                                  
-                'type'                  => 'TIMESTAMP'                         
+                'type'                  => 'TEXT'                         
             ],                                             
             'deleted_at'            => [                                  
-                'type'                  => 'TIMESTAMP'                         
+                'type'                  => 'TEXT'                         
             ],                                             
         ]); 
 
@@ -52,6 +52,6 @@ class User extends Migration
 
     public function down()
     {
-         this->forge->dropTable('user');
+        $this->forge->dropTable('user');
     }
 }
