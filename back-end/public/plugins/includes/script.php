@@ -13,8 +13,8 @@
 <script src="plugins/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
 
-<!-- <script src="plugins/vendor/jquery-easing/jquery.easing.min.js"></script> -->
 <script src="plugins/js/ruang-admin.min.js"></script>
+
 <!-- Select2 -->
 <script src="plugins/vendor/select2/dist/js/select2.min.js"></script>
 <script src="plugins/jquery.validate.js"></script>

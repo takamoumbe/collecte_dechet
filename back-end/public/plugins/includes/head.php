@@ -7,12 +7,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link href="plugins/img/logo/logo.png" rel="icon">
-  <title>RuangAdmin - Dashboard</title>
+
+  <link href="plugins/img/logo.png" rel="icon">
+  <title>Recycle | Gestion des dépots d'ordures</title>
+
+  <!-- fontawesome -->
   <link href="plugins/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+  <!-- bootstrap -->
   <link href="plugins/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+
+  <!-- ruang-admin -->
   <link href="plugins/css/ruang-admin.min.css" rel="stylesheet">
-  <!-- <link href="plugins/vendor/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css"> -->
+
+  <!-- sweetalert2 -->
   <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
   <link rel="stylesheet" href="plugins/sweetalert2/sweetalert2.min.css">
 

@@ -205,10 +205,10 @@
                                       <div class="col-md-8">
 
                                         <select class="select2-multiple form-control" name="type_dechet[]" multiple="multiple" id="type_dechet" style="width: 100%;" required>
-                                          <option selected>Aceh</option>
-                                          <option>Sumatra Utara</option>
-                                          <option>Sumatra Barat</option>
-                                          <option >Papua</option>
+                                          <option selected>Plastiques</option>
+                                          <option>Cassables</option>
+                                          <option>Organiques</option>
+                                          <option>Electronique</option>
                                         </select>
                                       </div>
                                     </div>
@@ -264,9 +264,10 @@
                                       <div class="col-md-4">Types de déchets :</div>
                                       <div class="col-md-8">
                                         <select class="select2-multiple form-control" name="type_dechet_charge[]" multiple="multiple" id="type_dechet_charge" style="width: 100%;" required>
-                                          <option>Sumatra Utara</option>
-                                          <option>Sumatra Barat</option>
-                                          <option selected>Papua</option>
+                                          <option selected>Plastiques</option>
+                                          <option>Cassables</option>
+                                          <option>Organiques</option>
+                                          <option>Electronique</option>
                                         </select>
                                       </div>
                                     </div>
@@ -517,7 +518,7 @@
 
 <script type="text/javascript">
   $('.select2-multiple').select2({
-    placeholder: "Selectionnez les déchets",
+    placeholder: "Selectionnez le(s) type(s) de déchet(s).....",
     allowClear: true
   }); 
   $('.select2-single').select2();
@@ -623,7 +624,7 @@
                 prenom: $('#prenom').val(),
                 email: $('#email').val(),
                 password: $('#password').val(),
-                type_user: "chargé mission",
+                type_user: "charger",
               },
               cache: false,
             }).done(function (dataResult) {
@@ -741,6 +742,7 @@
                 email_agence: $('#email_agence').val(),
                 password_agence: $('#password_agence').val(),
                 type_dechet: values,
+                type_user: "agence",
               },
               cache: false,
             }).done(function (dataResult) {

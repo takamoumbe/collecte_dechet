@@ -5,10 +5,18 @@ use CodeIgniter\RESTful\ResourceController;
 use App\Models\DepotModel;
 
 class DepotController extends ResourceController{
+
+
+    private $depot;
+
+    public function __construct() {
+        $this->depot   = new DechetModel();
+    }
+
+
     
     public function list() {
-        $model = new DepotModel();
-        $data = $model->findAll();
+        $data = $this->depot->get_all_depot();
         return $this->respond($data);
     }
     
@@ -16,31 +24,28 @@ class DepotController extends ResourceController{
 
     
     public function show($id = null) {
-        $model = new DepotModel();
-        $data = $model->getWhere(['id_depot' => $id])->getResult();
-        if($data){
-            return $this->respond($data);
-        }
-        else{
-            return $this->failNotFound('Aucune donnée trouvé avec l\'identifiant : '.$id);
-        }
+        $data = $this->depot->get_one_depot($id);
+        return $this->respond($data);
     }
     
     
 
     
     public function create()  {
-        $model = new DepotModel();
-        $times = date('d/m/Y');
         $data = [
             'date'          => date('d/m/Y'),
             'id_tache'      => $this->request->getVar('id_tache'),
             'id_user'       => $this->request->getVar('id_user'),
             'status_depot'  => 0,
-            'created_at'    => $times,
+            'created_at'    => date('Y-m-d H:i:s'),
         ];
-        $model->insert($data);
-        $response = ['status' => 201, 'error' => null];
+        
+        $result = $this->depot->insert($data);
+        if ($result) {
+            $response = ['status' => 200, 'error' => false];
+        } else {
+            $response = ['status' => 500, 'error' => true];
+        }
         return $this->respondCreated($response);
     }
     
@@ -50,14 +55,52 @@ class DepotController extends ResourceController{
     public function update($id = null) {
         $model = new DepotModel();
         $data = [
-            'date'          => date('d/m/Y h:i:s'),
+            'date'          => $this->request->getVar('date'),
             'id_tache'      => $this->request->getVar('id_tache'),
             'id_user'       => $this->request->getVar('id_user'),
-            'status_depot'  => 0,
-            'updated_at'    => date('d/m/Y h:i:s'),
+            'updated_at'    => date('Y-m-d H:i:s'),
         ];
-        $model->update($id, $data);
-        $response = ['status' => 200, 'error' => null];
+
+        $result = $this->depot->update($id, $data);
+        if ($result) {
+            $response = ['status' => 200, 'error' => false];
+        } else {
+            $response = ['status' => 500, 'error' => true];
+        }
+        return $this->respond($response);
+    }
+
+
+
+    public function desable($id = null) {
+        $data = [
+            'status_depot'  => 1,
+            'updated_at'    => date('Y-m-d H:i:s'),
+        ];
+
+        $result = $this->dechet->update($id, $data);
+        if ($result) {
+            $response = ['status' => 200, 'error' => false];
+        } else {
+            $response = ['status' => 500, 'error' => true];
+        }
+        return $this->respond($response);
+    }
+
+
+
+    public function enable($id = null) {
+        $data = [
+            'status_depot'  => 0,
+            'updated_at'    => date('Y-m-d H:i:s'),
+        ];
+
+        $result = $this->dechet->update($id, $data);
+        if ($result) {
+            $response = ['status' => 200, 'error' => false];
+        } else {
+            $response = ['status' => 500, 'error' => true];
+        }
         return $this->respond($response);
     }
 
