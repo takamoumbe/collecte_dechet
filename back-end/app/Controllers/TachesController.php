@@ -4,7 +4,7 @@ namespace App\Controllers;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\TachesModel;
 
-class TachesController extends ResourceController{
+class TachesController extends ResourceController{  
     
     private $tache;
 
@@ -110,6 +110,112 @@ class TachesController extends ResourceController{
         }
         return $this->respond($response);
     }
+
+
+    /*
+     * --------------------------------------------------------------------
+     * Function for mobile
+     * --------------------------------------------------------------------
+    */
+
+    /*@---> 1 liste taches for user
+     **
+     *@Retrun = response
+     **
+     *@use  = 
+    */
+
+    public function listetaches($idUser){
+
+        $TachesModel = new TachesModel();
+
+        $data = $TachesModel->selectTacheForUser($idUser);
+
+        return $this->respond($data);
+
+    }
+
+     /*@---> 2 terminer la tache
+     **
+     *@Retrun = response
+     **
+     *@use  = 
+    */
+
+    public function terminerTaches($id_tache){
+
+        $TachesModel = new TachesModel();
+
+        $data = [
+            'etat' => 1
+        ];
+
+        if ($TachesModel->where('id_tache', $id_tache)->set($data)->update() === false) {
+        
+            $response = [
+              'success' => false,
+              'status'  => 500,
+              'msg'     => 'La tache ne peut etre terminer.'
+            ];
+         return $this->respond($response);
+
+        }else{
+
+             $response = [
+                  'success' => true,
+                  'status'  => 200,
+                  'msg'     => 'La tache est terminer.'
+              ];
+             return $this->respond($response);
+        }
+
+    }
+
+    /*@---> 3 transferer la tache
+     **
+     *@Retrun = response
+     **
+     *@use  = 
+    */
+
+    public function transfererTaches($idUser, $idAgence){
+
+        $TachesModel = new TachesModel();
+
+        $dataTacheEffectuer = $TachesModel->tacheEffectuer($idUser);
+        $count=0;
+
+        for ($i=0; $i < sizeof($dataTacheEffectuer); $i++) { 
+            
+            $data = [
+                'status_tache' => $idAgence
+            ];
+
+            if ($TachesModel->where('id_tache', $dataTacheEffectuer[$i]['id_tache'])->set($data)->update() === false) {
+        
+            }else{
+                $count++;
+            }
+        }
+
+        if ($count == sizeof($dataTacheEffectuer)) {
+           $response = [
+                  'success' => true,
+                  'status'  => 200,
+                  'msg'     => 'Le transfert est terminer.'
+              ];
+             return $this->respond($response);
+        }else{
+            $response = [
+                  'success' => false,
+                  'status'  => 500,
+                  'msg'     => 'Le transfert a échouer.'
+              ];
+             return $this->respond($response);
+        }
+    }
+
+
 
 }
 
