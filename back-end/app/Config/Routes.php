@@ -24,7 +24,7 @@ $routes->set404Override();
 /*
  * --------------------------------------------------------------------
  * Route Definitions
- * --------------------------------------------------------------------
+ * -------------------------------------------------------------------- 
  */
 
 // We get a performance increase by specifying the default
@@ -36,8 +36,22 @@ $routes->get('/', 'Home::index');
  * --------------------------------------------------------------------
  * Route For Mobile
  * --------------------------------------------------------------------
- */
-    $routes->post('SendDechet', 'DechetController::sendDechet');
+ */  
+   
+   //@ListeAgence
+    $routes->get('ListeAgences',                            'UserController::listeAgences');
+   //@ListeDechet
+    $routes->get('ListeTaches/(:any)',                      'TachesController::listetaches/$1');
+   //@TerminerTache
+    $routes->get('TerminerTaches/(:any)',                   'TachesController::terminerTaches/$1');
+   //@TransfererTache
+    $routes->get('TransfererTaches/(:any)/(:any)',          'TachesController::transfererTaches/$1/$2');
+   //@sendDechet
+    $routes->post('SendDechet',                             'DechetController::sendDechet');
+   //@Authentication
+    $routes->post('Authentification',                       'UserController::authentification');
+
+
 
 
 /*

@@ -5,7 +5,7 @@ namespace App\Models;
 use CodeIgniter\Model;
 
 class TachesModel extends Model
-{
+{ 
     protected $DBGroup          = 'default';
     protected $table            = 'tache';
     protected $primaryKey       = 'id_tache';
@@ -23,7 +23,7 @@ class TachesModel extends Model
         'status_tache',
         'created_at',
         'updated_at',
-        'deleted_at',
+        'deleted_at'
     ];
 
     // Dates
@@ -49,4 +49,87 @@ class TachesModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    /*
+     * --------------------------------------------------------------------
+     * Function for mobile
+     * --------------------------------------------------------------------
+    */
+
+    public function selectTacheForUser($idUser){
+
+        // data
+        $data_final = array();
+
+
+        $buider1 = $this->db->table('tache');
+        $buider1->where('etat', 0);
+        $buider1->where('id_user', $idUser);
+        $buider1->select('*');
+        $query1 = $buider1->get();
+        $data1 = $query1->getResultArray();
+
+        
+        for ($i=0; $i < sizeof($data1); $i++) { 
+
+            $data  = $data1[$i]['id_dechet'];
+            $array =  array();
+            $array =  explode(',', $data, 20);
+            
+
+            $data_inter = [
+                'nbre_dechet'   => sizeof($array),
+                'date'          => $data1[$i]['date'],
+                'etat'          => $data1[$i]['etat'],
+                'status_tache'  => $data1[$i]['status_tache'],
+                'created_at'    => $data1[$i]['created_at'],
+                'updated_at'    => $data1[$i]['updated_at'],
+                'deleted_at'    => $data1[$i]['deleted_at']
+            ];
+
+            array_push($data_final, $data_inter);
+        }
+
+
+        return $data_final;
+
+    }
+
+    public function tacheEffectuer($idUser){
+        // data
+        $data_final = array();
+
+
+        $buider1 = $this->db->table('tache');
+        $buider1->where('etat', 1);
+        $buider1->where('id_user', $idUser);
+        $buider1->select('*');
+        $query1 = $buider1->get();
+        $data1 = $query1->getResultArray();
+
+        
+        for ($i=0; $i < sizeof($data1); $i++) { 
+
+            $data  = $data1[$i]['id_dechet'];
+            $array =  array();
+            $array =  explode(',', $data, 20);
+            
+
+            $data_inter = [
+                'id_tache'      => $data1[$i]['id_tache'],
+                'nbre_dechet'   => sizeof($array),
+                'date'          => $data1[$i]['date'],
+                'etat'          => $data1[$i]['etat'],
+                'status_tache'  => $data1[$i]['status_tache'],
+                'created_at'    => $data1[$i]['created_at'],
+                'updated_at'    => $data1[$i]['updated_at'],
+                'deleted_at'    => $data1[$i]['deleted_at']
+            ];
+
+            array_push($data_final, $data_inter);
+        }
+
+
+        return $data_final;
+    }
 }

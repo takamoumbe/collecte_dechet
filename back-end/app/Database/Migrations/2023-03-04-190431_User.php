@@ -22,6 +22,9 @@ class User extends Migration
             'login'                 => [                                  
                 'type'                  => 'TEXT'                          
             ],
+            'password'              => [                                  
+                'type'                  => 'TEXT'                          
+            ],
             'email'                 => [                                  
                 'type'                  => 'TEXT'                          
             ], 
