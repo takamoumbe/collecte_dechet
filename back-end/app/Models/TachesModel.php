@@ -50,6 +50,7 @@ class TachesModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+<<<<<<< HEAD
     /*
      * --------------------------------------------------------------------
      * Function for mobile
@@ -131,5 +132,26 @@ class TachesModel extends Model
 
 
         return $data_final;
+=======
+
+
+
+    public function get_all_tache() {
+        $builder = $db->table('tache');
+        $builder->select('id_tache, id_dechet, status_tache, date, id_tache, id_user, nom, prenom');
+        $builder->join('user', 'user.id_user = depot.id_user');
+        $query = $builder->get();
+        return $query;
+    }
+
+
+    public function get_one_tache($id = null) {
+        $builder = $db->table('tache');
+        $builder->select('id_tache, id_dechet, status_tache, date, id_tache, id_user, nom, prenom');
+        $builder->join('user', 'user.id_user = depot.id_user');
+        $builder->where('id_depot', $id);
+        $query = $builder->get();
+        return $query;
+>>>>>>> 6033a349d12ce683c1ff737c9f21db261400f52b
     }
 }

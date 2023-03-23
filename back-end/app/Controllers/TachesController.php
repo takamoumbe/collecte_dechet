@@ -6,69 +6,108 @@ use App\Models\TachesModel;
 
 class TachesController extends ResourceController{  
     
+    private $tache;
+
+    public function __construct() {
+        $this->tache   = new TachesModel();
+    }
+
+
     public function list() {
-        $model = new TachesModel();
-        $data = $model->findAll();
+        $data = $this->tache->get_all_tache();
         return $this->respond($data);
     }
+
+
    
 
     public function show($id = null) {
-        $model = new TachesModel();
-        $data = $model->getWhere(['id_tache' => $id])->getResult();
-        if($data){
-            return $this->respond($data);
-        }
-        else{
-            return $this->failNotFound('Aucune donnée trouvé avec l\'identifiant : '.$id);
-        }
+        $data = $this->tache->get_one_tache($id);
+        return $this->respond($data);
     }
     
 
     
-    public function create()  {
-        $model = new TachesModel();
-        $times = date('d-m-Y');
-        $dechet = $this->request->getVar('id_dechet');
-        $variable = '';
-        for ($i=0; $i < count($dechet); $i++) { 
-            $variable = ','.$dechet[$i];
-        }
-
+    public function add_user_tache()  {
         $data = [
-            'id_dechet'     => $variable,
+            'id_dechet'     => $this->request->getVar('id_dechet'),
             'id_user'       => $this->request->getVar('id_user'),
-            'date'          =>  $times,
-            'etat'          => 'inactif',
+            'date'          => $this->request->getVar('id_user'),
             'status_tache'  => 0,
-            'created_at'    => $times,
+            'created_at'    => date('Y-m-d H:i:s'),
         ];
-        $model->insert($data);
-        $response = ['status' => 201, 'error' => null];
+        
+        $result = $this->tache->insert($data);
+        if ($result) {
+            $response = ['status' => 200, 'error' => false];
+        } else {
+            $response = ['status' => 500, 'error' => true];
+        }
         return $this->respondCreated($response);
     }
 
 
    
-    public function update($id = null) {
-        $model = new TachesModel();
-        
-        $dechet = $this->request->getVar('id_dechet');
-        $variable = '';
-        for ($i=0; $i < count($dechet); $i++) { 
-            $variable = ','.$dechet[$i];
+    public function remove_user_tache($id = null) {
+        $result = $this->tache->delete(['id_tache' => $id]);
+        if ($result) {
+            $response = ['status' => 200, 'error' => false];
+        } else {
+            $response = ['status' => 500, 'error' => true];
         }
+        return $this->respond($response);
+    }
 
+
+   
+    public function update($id = null) {
         $data = [
-            'id_dechet'     => $variable,
+            'id_dechet'     => $this->request->getVar('id_dechet'),
             'id_user'       => $this->request->getVar('id_user'),
-            'date'          => date('d/m/Y'),
-            'etat'          => 'inactif',
-            'status_tache'  => 0,
-            'created_at'    => date('d/m/Y'),
+            'date'          => $this->request->getVar('id_user'),
+            'updated_at'    => date('Y-m-d H:i:s'),
         ];
-        $model->update($id, $data);
-        $response = ['status' => 200, 'error' => null];
+
+        $result = $this->tache->update($id, $data);
+        if ($result) {
+            $response = ['status' => 200, 'error' => false];
+        } else {
+            $response = ['status' => 500, 'error' => true];
+        }
+        return $this->respond($response);
+    }
+
+
+
+    public function desable($id = null) {
+        $data = [
+            'status_tache'  => 0,
+            'updated_at'    => date('Y-m-d H:i:s'),
+        ];
+
+        $result = $this->tache->update($id, $data);
+        if ($result) {
+            $response = ['status' => 200, 'error' => false];
+        } else {
+            $response = ['status' => 500, 'error' => true];
+        }
+        return $this->respond($response);
+    }
+
+
+
+    public function enable($id = null) {
+        $data = [
+            'status_tache'  => 1,
+            'updated_at'    => date('Y-m-d H:i:s'),
+        ];
+
+        $result = $this->tache->update($id, $data);
+        if ($result) {
+            $response = ['status' => 200, 'error' => false];
+        } else {
+            $response = ['status' => 500, 'error' => true];
+        }
         return $this->respond($response);
     }
 
@@ -179,3 +218,5 @@ class TachesController extends ResourceController{
 
 
 }
+
+
