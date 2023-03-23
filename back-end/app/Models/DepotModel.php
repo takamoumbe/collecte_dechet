@@ -48,4 +48,25 @@ class DepotModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+
+
+
+    public function get_all_depot() {
+        $builder = $db->table('depot');
+        $builder->select('id_depot, date, status_depot, id_tache, id_user, nom, prenom');
+        $builder->join('user', 'user.id_user = depot.id_user');
+        $query = $builder->get();
+        return $query;
+    }
+
+
+    public function get_one_depot($id = null) {
+        $builder = $db->table('depot');
+        $builder->select('id_depot, date, status_depot, id_tache, id_user, nom, prenom');
+        $builder->join('user', 'user.id_user = depot.id_user');
+        $builder->where('id_depot', $id);
+        $query = $builder->get();
+        return $query;
+    }
 }

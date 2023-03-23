@@ -2,77 +2,106 @@
 
 namespace App\Controllers;
 use CodeIgniter\RESTful\ResourceController;
-use App\Models\UserModel;
+use App\Models\DechetModel;
 
 
 class DechetController extends ResourceController{
-    
-    
+
+
+    private $dechet;
+
+    public function __construct() {
+        $this->dechet   = new DechetModel();
+    }
+
+
+
     public function list() {
-        $model = new UserModel();
-        $data = $model->findAll();
+        $data = $this->dechet->get_all_dechet();
         return $this->respond($data);
     }
-   
+
+
 
     public function show($id = null) {
-        $model = new UserModel();
-        $data = $model->getWhere(['id_dechet' => $id])->getResult();
-        if($data){
-            return $this->respond($data);
-        }
-        else{
-            return $this->failNotFound('Aucune donnée trouvé avec l\'identifiant : '.$id);
-        }
+        $data = $this->dechet->get_one_dechet($id);
+        return $this->respond($data);
     }
     
 
     
     public function create()  {
-        $model = new UserModel();
-        $type_dechet = $this->request->getVar('telephone');
-        $variable = '';
-
-        for ($i=0; $i < count($type_dechet); $i++) { 
-            $variable = ','.$type_dechet[$i];
-        }
-
         $data = [
-            'type_dechet'   => $variable,
+            'type_dechet'   => $this->request->getVar('type_dechet'),
             'quantite'      => $this->request->getVar('quantite'),
             'description'   => $this->request->getVar('description'),
             'id_client'     => $this->request->getVar('id_client'),
             'id_user'       => $this->request->getVar('id_user'),
             'status_dechet' => 0,
-            'created_at'    => date('d/m/Y h:i:s'),
+            'created_at'    => date('Y-m-d H:i:s'),
         ];
-        $model->insert($data);
-        $response = ['status' => 201, 'error' => null];
+        
+        $result = $this->dechet->insert($data);
+        if ($result) {
+            $response = ['status' => 200, 'error' => false];
+        } else {
+            $response = ['status' => 500, 'error' => true];
+        }
         return $this->respondCreated($response);
     }
 
 
-   
+
     public function update($id = null) {
-        $model = new UserModel();
-        $type_dechet = $this->request->getVar('telephone');
-        $variable = '';
-
-        for ($i=0; $i < count($type_dechet); $i++) { 
-            $variable = ','.$type_dechet[$i];
-        }
-
         $data = [
             'type_dechet'   => $variable,
             'quantite'      => $this->request->getVar('quantite'),
             'description'   => $this->request->getVar('description'),
             'id_client'     => $this->request->getVar('id_client'),
             'id_user'       => $this->request->getVar('id_user'),
-            'status_dechet' => 0,
-            'created_at'    => date('d/m/Y h:i:s'),
+            'updated_at'    => date('Y-m-d H:i:s'),
         ];
-        $model->update($id, $data);
-        $response = ['status' => 200, 'error' => null];
+
+        $result = $this->dechet->update($id, $data);
+        if ($result) {
+            $response = ['status' => 200, 'error' => false];
+        } else {
+            $response = ['status' => 500, 'error' => true];
+        }
+        return $this->respond($response);
+    }
+
+
+
+    public function desable($id = null) {
+        $data = [
+            'status_dechet' => 0,
+            'updated_at'    => date('Y-m-d H:i:s'),
+        ];
+
+        $result = $this->dechet->update($id, $data);
+        if ($result) {
+            $response = ['status' => 200, 'error' => false];
+        } else {
+            $response = ['status' => 500, 'error' => true];
+        }
+        return $this->respond($response);
+    }
+
+
+
+    public function enable($id = null) {
+        $data = [
+            'status_dechet' => 1,
+            'updated_at'    => date('Y-m-d H:i:s'),
+        ];
+
+        $result = $this->dechet->update($id, $data);
+        if ($result) {
+            $response = ['status' => 200, 'error' => false];
+        } else {
+            $response = ['status' => 500, 'error' => true];
+        }
         return $this->respond($response);
     }
 
