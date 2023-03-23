@@ -4,8 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Client extends Migration
-{
+class Client extends Migration {
     public function up()
     {
         $this->forge->addField([  
@@ -20,13 +19,13 @@ class Client extends Migration
                 'type'                  => 'INT', 
             ], 
             'created_at'        => [                                          
-                'type'                  => 'TIMESTAMP'                         
+                'type'                  => 'TEXT'                         
             ],                                             
             'updated_at'        => [                                  
-                'type'                  => 'TIMESTAMP'                         
+                'type'                  => 'TEXT'                         
             ],                                             
             'deleted_at'        => [                                  
-                'type'                  => 'TIMESTAMP'                         
+                'type'                  => 'TEXT'                         
             ],                                             
         ]); 
 
@@ -37,7 +36,7 @@ class Client extends Migration
 
     public function down()
     {
-         this->forge->dropTable('client');
+        $this->forge->dropTable('client');
     }
 
 }

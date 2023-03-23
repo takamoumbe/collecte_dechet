@@ -49,4 +49,25 @@ class TachesModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+
+
+
+    public function get_all_tache() {
+        $builder = $db->table('tache');
+        $builder->select('id_tache, id_dechet, status_tache, date, id_tache, id_user, nom, prenom');
+        $builder->join('user', 'user.id_user = depot.id_user');
+        $query = $builder->get();
+        return $query;
+    }
+
+
+    public function get_one_tache($id = null) {
+        $builder = $db->table('tache');
+        $builder->select('id_tache, id_dechet, status_tache, date, id_tache, id_user, nom, prenom');
+        $builder->join('user', 'user.id_user = depot.id_user');
+        $builder->where('id_depot', $id);
+        $query = $builder->get();
+        return $query;
+    }
 }
