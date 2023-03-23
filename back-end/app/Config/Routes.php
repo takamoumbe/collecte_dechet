@@ -24,7 +24,7 @@ $routes->set404Override();
 /*
  * --------------------------------------------------------------------
  * Route Definitions
- * --------------------------------------------------------------------
+ * -------------------------------------------------------------------- 
  */
 
 
@@ -99,6 +99,27 @@ $routes->post('upTache/(:num)', 'TachesController::update/$1');
 $routes->post('enTache/(:num)', 'TachesController::enable/$1');
 $routes->post('desTache/(:num)','TachesController::desable/$1');
 
+
+
+
+/*
+ * --------------------------------------------------------------------
+ * Route For Mobile
+ * --------------------------------------------------------------------
+ */  
+   
+   //@ListeAgence
+    $routes->get('ListeAgences',                            'UserController::listeAgences');
+   //@ListeDechet
+    $routes->get('ListeTaches/(:any)',                      'TachesController::listetaches/$1');
+   //@TerminerTache
+    $routes->get('TerminerTaches/(:any)',                   'TachesController::terminerTaches/$1');
+   //@TransfererTache
+    $routes->get('TransfererTaches/(:any)/(:any)',          'TachesController::transfererTaches/$1/$2');
+   //@sendDechet
+    $routes->post('SendDechet',                             'DechetController::sendDechet');
+   //@Authentication
+    $routes->post('Authentification',                       'UserController::authentification');
 
 
 

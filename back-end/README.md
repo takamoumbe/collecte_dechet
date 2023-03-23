@@ -64,3 +64,13 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 
 ## code for bitbucket
 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
+
+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
+
+insert user values(null, "takam", "ange abel", "LIONEL", "LIONEL12", "angeltakam76@gmail.com", "bafoussam", "collecteur", 0, "2022-11-02 12:12:01", "2022-11-02 12:12:01", "2022-11-02 12:12:01");
+
+insert into dechet() values(null, 20, "plastique", "situer a terminus", 0, 1, 1,"2022-02-11 12:10:02", "2022-02-11 12:10:02", "2022-02-11 12:10:02");
+
+insert into client() values(null, "659373726", 0, "2022-02-11 12:10:02", "2022-02-11 12:10:02", "2022-02-11 12:10:02");
+
+insert into tache() values(null, 1, 1, "2023-10-12", 0, 0, "2022-02-11 12:10:02", "2022-02-11 12:10:02", "2022-02-11 12:10:02");
