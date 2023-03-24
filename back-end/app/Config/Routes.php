@@ -31,11 +31,11 @@ $routes->set404Override();
 
 /* ================ Dashboard Controller ================ */
  
-$routes->get('/',       'Dashboard::index');
-$routes->get('Open',    'Dashboard::login');
-$routes->get('Home',    'Dashboard::home');
-$routes->get('Save',    'Dashboard::saving');
-$routes->get('List',    'Dashboard::Listing');
+$routes->get('/',             'Dashboard::index');
+$routes->get('Open',          'Dashboard::login');
+$routes->get('Home',          'Dashboard::home');
+$routes->get('Save',          'Dashboard::saving');
+$routes->get('List',          'Dashboard::Listing');
 
 
 
@@ -45,10 +45,14 @@ $routes->get('List',    'Dashboard::Listing');
 $routes->get('getCharger',      'UserController::list_charge');
 $routes->get('getAgence',       'UserController::list_agence');
 $routes->get('oneUser/(:num)',  'UserController::show/$1');
+$routes->post('Auth',           'UserController::authentification');
 $routes->post('newUser',        'UserController::create');
 $routes->post('upUser/(:num)',  'UserController::update/$1');
 $routes->post('enaUser/(:num)', 'UserController::enable/$1');
 $routes->post('desUser/(:num)', 'UserController::desable/$1');
+$routes->post('AddChargerMission', 'UserController::addChargerMission');
+$routes->post('AddAgence', 'UserController::addAgence');
+$routes->get('ListeCollecteurSelect2',        'UserController::listeCollecteurSelect2');
 
 
 
@@ -67,6 +71,8 @@ $routes->post('desClient/(:num)','ClientController::desable/$1');
 /* ================ Dechets Controller ================ */
 
 
+$routes->get('Statistique',     'DechetController::statistique');
+$routes->get('ListeDechet',     'DechetController::listNoDechet');
 $routes->get('getDechets',      'DechetController::list');
 $routes->get('oneDechet/(:num)','DechetController::show/$1');
 $routes->post('newDechet',      'DechetController::create');

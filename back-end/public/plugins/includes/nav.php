@@ -3,8 +3,9 @@
     <i class="fa fa-bars"></i>
   </button>
   <ul class="navbar-nav ml-auto">
+   
     <li class="nav-item dropdown no-arrow">
-      <a class="nav-link dropdown-toggle" href="plugins/#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-search fa-fw"></i>
       </a>
       <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"   aria-labelledby="searchDropdown">
@@ -25,24 +26,16 @@
     <li class="nav-item dropdown no-arrow mx-1">
       <a class="nav-link dropdown-toggle" href="plugins/#" id="alertsDropdown" role="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-bell fa-fw"></i>
-        <span class="badge badge-danger badge-counter">3+</span>
+        <span class="badge badge-danger badge-counter" id="nbre"></span>
       </a>
       <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"   aria-labelledby="alertsDropdown">
         <h6 class="dropdown-header">
-          Alerts Center
+          Déchet recus | <?= date("Y-m-d") ?>
         </h6>
-        <a class="dropdown-item d-flex align-items-center" href="plugins/#">
-          <div class="mr-3">
-            <div class="icon-circle bg-primary">
-              <i class="fas fa-file-alt text-white"></i>
-            </div>
-          </div>
-          <div>
-            <div class="small text-gray-500">December 12, 2019</div>
-            <span class="font-weight-bold">A new monthly report is ready to download!</span>
-          </div>
-        </a>
-        <a class="dropdown-item text-center small text-gray-500" href="plugins/#">Show All Alerts</a>
+        <div id="listDechet">
+          
+        </div>
+        <a class="dropdown-item text-center small text-gray-500" href="<?= base_url() ?>/List">Lister toutes les taches</a>
       </div>
     </li>
 
@@ -52,7 +45,7 @@
     <li class="nav-item dropdown no-arrow">
       <a class="nav-link dropdown-toggle" href="plugins/#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <img class="img-profile rounded-circle" src="plugins/img/boy.png" style="max-width: 60px">
-        <span class="ml-2 d-none d-lg-inline text-white small">Maman Ketoprak</span>
+        <span class="ml-2 d-none d-lg-inline text-white small"><b id="login"></b> | <b id="type_user"></b><br><i id="timer">loading</i></span>
       </a>
       <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
         <a class="dropdown-item" href="plugins/#">
@@ -68,3 +61,7 @@
     </li>
   </ul>
 </nav>
+<!-- plugins/javascript:void(0); -->
+<script type="text/javascript">
+ liste_dechet();
+</script>

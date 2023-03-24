@@ -14,7 +14,7 @@ class Tache extends Migration
                 'auto_increment'        => true,                           
             ],                                            
             'id_dechet'         => [                                  
-                'type'                  => 'INT'                          
+                'type'                  => 'TEXT'                          
             ],                                   
             'id_user'           => [                                 
                 'type'                  => 'INT', 
@@ -22,7 +22,10 @@ class Tache extends Migration
             'date'              => [                                 
                 'type'                  => 'TEXT', 
             ],
-            'status_tache'      => [                   // ce genre masque le tuple lors de la suppression              
+            'etat'              => [                     
+                'type'                  => 'INT', 
+            ], 
+            'status_tache'      => [                              
                 'type'                  => 'INT', 
             ], 
             'created_at'        => [                                          
@@ -38,7 +41,7 @@ class Tache extends Migration
 
         $this->forge->addPrimaryKey('id_tache'); 
         $this->forge->addForeignKey('id_user', 'user', 'id_user');           
-        $this->forge->addForeignKey('id_dechet', 'dechet', 'id_dechet');           
+        // $this->forge->addForeignKey('id_dechet', 'dechet', 'id_dechet');           
         $this->forge->createTable('tache');                            
     }  
     

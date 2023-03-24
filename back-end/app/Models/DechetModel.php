@@ -19,6 +19,7 @@ class DechetModel extends Model
       'type_dechet', 
       'quantite', 
       'description', 
+      'photo', 
       'status_dechet',
       'id_client',
       'id_user',
@@ -55,16 +56,25 @@ class DechetModel extends Model
    public function get_all_dechet() {
       $builder = $db->table('dechet');
       $builder->select('id_dechet, quantite, description, id_client, telephone, id_user, nom, prenom, status_dechet');
-      $builder->join('user', 'user.id_user = dechet.id_user');
+      // $builder->join('user', 'user.id_user = dechet.id_user');
       $builder->join('client', 'client.id_client = dechet.id_client');
       $query = $builder->get();
       return $query;
    }
 
+   public function get_all_dechet_no() {
+      $builder = $this->db->table('dechet');
+      $builder->select('id_dechet, quantite, description, dechet.id_client, telephone, id_user, status_dechet');
+      $builder->where('status_dechet', 0);
+      $builder->join('client', 'client.id_client = dechet.id_client');
+      $query = $builder->get();
+      return $query->getResult();
+   }
+
    public function get_one_dechet($id = null) {
       $builder = $db->table('dechet');
       $builder->select('id_dechet, quantite, description, id_client, telephone, id_user, nom, prenom, status_dechet');
-      $builder->join('user', 'user.id_user = dechet.id_user');
+      // $builder->join('user', 'user.id_user = dechet.id_user');
       $builder->join('client', 'client.id_client = dechet.id_client');
       $builder->where('id_dechet', $id);
       $query = $builder->get();

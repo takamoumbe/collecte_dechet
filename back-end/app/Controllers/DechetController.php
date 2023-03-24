@@ -6,6 +6,8 @@ use CodeIgniter\API\ResponseTrait;
 use App\Models\UserModel;
 use App\Models\DechetModel;
 use App\Models\ClientModel;
+use App\Models\DepotModel;
+use App\Models\TachesModel;
 
 
 class DechetController extends ResourcePresenter{
@@ -13,14 +15,27 @@ class DechetController extends ResourcePresenter{
     use ResponseTrait;
 
 
-    private $dechet;
+    public $dechet;
+    public $client;
+    public $depot;
+    public $tache;
+    public $user;
 
     public function __construct() {
         $this->dechet   = new DechetModel();
+        $this->client   = new ClientModel();
+        $this->depot    = new DepotModel();
+        $this->tache    = new TachesModel();
+        $this->user     = new UserModel();
     }
 
     public function list() {
         $data = $this->dechet->get_all_dechet();
+        return $this->respond($data);
+    }
+
+    public function listNoDechet() {
+        $data = $this->dechet->get_all_dechet_no();
         return $this->respond($data);
     }
 
@@ -30,81 +45,98 @@ class DechetController extends ResourcePresenter{
     }
     
 
+    public function statistique(){
+
+        $data["entrepot"]        = $this->user->where(['type_user' => 'entrepot', 'status_user' => 0])->findAll();
+        $data["collecteur"]      = $this->user->where(['type_user' => 'collecteur', 'status_user' => 0])->findAll();
+        $data["utilisateur"]     = $this->user->where(['type_user' => 'utilisateur', 'status_user' => 0])->findAll();
+        $data["position_dechet"] = $this->dechet->findAll();
+
+
+        $data["mat_plas"]     = $this->dechet->where('type_dechet', 'plastique')->findAll();
+        $data["mat_orga"]     = $this->dechet->where('type_dechet', 'organique')->findAll();
+        $data["mat_cass"]     = $this->dechet->where('type_dechet', 'cassables')->findAll();
+        $data["mat_metali"]   = $this->dechet->where('type_dechet', 'metalique')->findAll();
+        $data["mat_electro"]  = $this->dechet->where('type_dechet', 'electronique')->findAll();
+
+        return $this->respond($data);
+    }
     
-    public function create()  {
-        $data = [
-            'type_dechet'   => $this->request->getVar('type_dechet'),
-            'quantite'      => $this->request->getVar('quantite'),
-            'description'   => $this->request->getVar('description'),
-            'id_client'     => $this->request->getVar('id_client'),
-            'id_user'       => $this->request->getVar('id_user'),
-            'status_dechet' => 0,
-            'created_at'    => date('Y-m-d H:i:s'),
-        ];
+    // public function create()  {
+    //     $data = [
+    //         'type_dechet'   => $this->request->getVar('type_dechet'),
+    //         'quantite'      => $this->request->getVar('quantite'),
+    //         'description'   => $this->request->getVar('description'),
+    //         'id_client'     => $this->request->getVar('id_client'),
+    //         'id_user'       => $this->request->getVar('id_user'),
+    //         'status_dechet' => 0,
+    //         'created_at'    => date('Y-m-d H:i:s'),
+    //     ];
         
-        $result = $this->dechet->insert($data);
-        if ($result) {
-            $response = ['status' => 200, 'error' => false];
-        } else {
-            $response = ['status' => 500, 'error' => true];
-        }
-        return $this->respondCreated($response);
-    }
+    //     $result = $this->dechet->insert($data);
+    //     if ($result) {
+    //         $response = ['status' => 200, 'error' => false];
+    //     } else {
+    //         $response = ['status' => 500, 'error' => true];
+    //     }
+    //     return $this->respondCreated($response);
+    // }
 
 
 
-    public function update($id = null) {
-        $data = [
-            'type_dechet'   => $variable,
-            'quantite'      => $this->request->getVar('quantite'),
-            'description'   => $this->request->getVar('description'),
-            'id_client'     => $this->request->getVar('id_client'),
-            'id_user'       => $this->request->getVar('id_user'),
-            'updated_at'    => date('Y-m-d H:i:s'),
-        ];
+    // public function update($id = null) {
+    //     $data = [
+    //         'type_dechet'   => $variable,
+    //         'quantite'      => $this->request->getVar('quantite'),
+    //         'description'   => $this->request->getVar('description'),
+    //         'id_client'     => $this->request->getVar('id_client'),
+    //         'id_user'       => $this->request->getVar('id_user'),
+    //         'updated_at'    => date('Y-m-d H:i:s'),
+    //     ];
 
-        $result = $this->dechet->update($id, $data);
-        if ($result) {
-            $response = ['status' => 200, 'error' => false];
-        } else {
-            $response = ['status' => 500, 'error' => true];
-        }
-        return $this->respond($response);
-    }
-
-
-
-    public function desable($id = null) {
-        $data = [
-            'status_dechet' => 0,
-            'updated_at'    => date('Y-m-d H:i:s'),
-        ];
-
-        $result = $this->dechet->update($id, $data);
-        if ($result) {
-            $response = ['status' => 200, 'error' => false];
-        } else {
-            $response = ['status' => 500, 'error' => true];
-        }
-        return $this->respond($response);
-    }
+    //     $result = $this->dechet->update($id, $data);
+    //     if ($result) {
+    //         $response = ['status' => 200, 'error' => false];
+    //     } else {
+    //         $response = ['status' => 500, 'error' => true];
+    //     }
+    //     return $this->respond($response);
+    // }
 
 
 
-    public function enable($id = null) {
-        $data = [
-            'status_dechet' => 1,
-            'updated_at'    => date('Y-m-d H:i:s'),
-        ];
+    // public function desable($id = null) {
+    //     $data = [
+    //         'status_dechet' => 0,
+    //         'updated_at'    => date('Y-m-d H:i:s'),
+    //     ];
 
-        $result = $this->dechet->update($id, $data);
-        if ($result) {
-            $response = ['status' => 200, 'error' => false];
-        } else {
-            $response = ['status' => 500, 'error' => true];
-        }
-        return $this->respond($response);
-    }
+    //     $result = $this->dechet->update($id, $data);
+    //     if ($result) {
+    //         $response = ['status' => 200, 'error' => false];
+    //     } else {
+    //         $response = ['status' => 500, 'error' => true];
+    //     }
+    //     return $this->respond($response);
+    // }
+
+
+
+    // public function enable($id = null) {
+    //     $data = [
+    //         'status_dechet' => 1,
+    //         'updated_at'    => date('Y-m-d H:i:s'),
+    //     ];
+
+    //     $result = $this->dechet->update($id, $data);
+    //     if ($result) {
+    //         $response = ['status' => 200, 'error' => false];
+    //     } else {
+    //         $response = ['status' => 500, 'error' => true];
+    //     }
+    //     return $this->respond($response);
+    // }
+
 
 
 
@@ -142,7 +174,7 @@ class DechetController extends ResourcePresenter{
 
             
             /*====================== IMPORT PHOTO ======================*/
-            $photo = $this->request->getFile('image');
+            $photo = $this->request->getFile('images');
             $profile_photo = $photo->getName();
             // Renaming file before upload
             $temp_photo = explode(".",$profile_photo);
@@ -172,6 +204,7 @@ class DechetController extends ResourcePresenter{
                 'type_dechet'   => $type_dechet,
                 'quantite'      => 0,
                 'description'   => $description,
+                'photo'         => $new_photo_name,
                 'status_dechet' => 0,
                 'id_client'     => $id_client,
                 'id_user'       => 0,
