@@ -3,11 +3,12 @@
 namespace App\Controllers;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\UserModel;
+use \Firebase\JWT\JWT;  
 
 class UserController extends ResourceController{
 
 
-    private $model;
+    public $model;
     public function __construct() {
         $this->model = new UserModel();
     }
@@ -33,6 +34,159 @@ class UserController extends ResourceController{
         return $this->respond($data);
     }
 
+
+    /*@---> enregistrer un charger de mission
+     **
+     *@Retrun = response
+     **
+     *@use  = 
+    */
+
+    public function addChargerMission(){
+        $UserModel = new UserModel();
+
+        $rules = [
+            'nom'           => [
+                'rules'               => 'trim|required|min_length[5]|max_length[255]'
+            ],
+            'login2'        => [
+                'rules'               => 'trim|required|min_length[5]|max_length[255]'
+            ],
+            'prenom'        => [
+                'rules'               => 'trim|required|min_length[5]|max_length[255]'
+            ],
+            'email'         => [
+                'rules'               => 'trim|required|min_length[5]|max_length[255]|valid_email|is_unique[user.email]'
+            ],
+            'password'      => [
+                'rules'               => 'trim|required|min_length[5]|max_length[255]|is_unique[user.password]'
+            ]
+        ];
+
+        if ($this->validate($rules)) {
+
+            $data = [
+                "nom"           => $this->request->getVar('nom'),
+                "prenom"        => $this->request->getVar('prenom'),
+                "login"         => $this->request->getVar('login2'),
+                "email"         => $this->request->getVar('email'),
+                "password"      => $this->request->getVar('password'),
+                "type_user"     => "collecteur",
+                "created_at"    => date("Y-m-d H:m:s"),
+                "updated_at"    => date("Y-m-d H:m:s"),
+                "status_user"   => 0,
+            ];
+
+            $UserModel->save($data);
+
+            $response = [
+                "success" => true,
+                "status"  => 200,
+                "msg"     => "Insertion reussir"
+            ];
+
+            return $this->respond($response);
+
+        }else{
+
+            $response = [
+                "success" => false,
+                "status"  => 500,
+                "msg"     => $this->validator->getErrors(),
+            ];
+
+            return $this->respond($response);
+
+        }
+    }
+
+
+    /*@---> enregistrer une agence
+     **
+     *@Retrun = response
+     **
+     *@use  = 
+    */
+
+    public function addAgence(){
+        $UserModel = new UserModel();
+
+        $rules = [
+            'nom_agence'        => [
+                'rules'               => 'trim|required|min_length[5]|max_length[255]'
+            ],
+            'lieu_agence'       => [
+                'rules'               => 'trim|required|min_length[5]|max_length[255]'
+            ],
+            'email_agence'      => [
+                'rules'               => 'trim|required|min_length[5]|max_length[255]|valid_email|is_unique[user.email]'
+            ],
+            'password_agence'   => [
+                'rules'               => 'trim|required|min_length[5]|max_length[255]|is_unique[user.password]'
+            ]
+        ];
+
+
+        if ($this->validate($rules)) {
+
+            $data = [
+                "nom"           => $this->request->getVar('nom_agence'),
+                "lieu"          => $this->request->getVar('lieu_agence'),
+                "email"         => $this->request->getVar('email_agence'),
+                "password"      => $this->request->getVar('password_agence'),
+                "type_user"     => "entrepot",
+                "created_at"    => date("Y-m-d H:m:s"),
+                "updated_at"    => date("Y-m-d H:m:s"),
+                "status_user"   => 0,
+            ];
+
+            $UserModel->save($data);
+
+            $response = [
+                "success" => true,
+                "status"  => 200,
+                "msg"     => "Insertion reussir"
+            ];
+
+            return $this->respond($response);
+
+        }else{
+
+            $response = [
+                "success" => false,
+                "status"  => 500,
+                "msg"     => $this->validator->getErrors(),
+            ];
+
+            return $this->respond($response);
+
+        }
+    }
+
+    /*@---> liste charger de mission
+     **
+     *@Retrun = response
+     **
+     *@use  = 
+    */
+
+     public function listeCollecteurSelect2(){
+
+        $chaine = $this->request->getVar('searchTerm');
+        $data   = $this->model->get_collecteur_search($chaine);
+        $data_final = array();
+
+        for ($i=0; $i < sizeof($data); $i++) { 
+           $data_inter = [
+                "id"   => $data[$i]['id_user'], 
+                "text" => $data[$i]['nom'].' | '.$data[$i]['prenom']
+           ];
+
+           array_push($data_final, $data_inter);
+        }
+
+        return $this->respond($data_final);
+    }
 
 
     public function create()  {
@@ -91,6 +245,35 @@ class UserController extends ResourceController{
         return $this->respond($response);
     }
 
+    public function desable($id = null) {
+        $data = [
+            'update_at'     => date('Y-m-d H:i:s'),
+            'status_user'   => 1,
+        ];
+        
+        $result = $this->model->update($id, $data);
+        if ($result) {
+            $response = ['status' => 200, 'error' => false];
+        } else {
+            $response = ['status' => 500, 'error' => true];
+        }
+        return $this->respond($response);
+    }
+
+    public function enable($id = null) {
+        $data = [
+            'update_at'     => date('Y-m-d H:i:s'),
+            'status_user'   => 0,
+        ];
+        
+        $result = $this->model->update($id, $data);
+        if ($result) {
+            $response = ['status' => 200, 'error' => false];
+        } else {
+            $response = ['status' => 500, 'error' => true];
+        }
+        return $this->respond($response);
+    }
 
     /*
      * --------------------------------------------------------------------
@@ -144,7 +327,6 @@ class UserController extends ResourceController{
                     'nom'           => "",
                     'prenom'        => "",
                     'login'         => "",
-                    'password'      => ""
                 ];
 
                 return $this->respond($response);
@@ -163,24 +345,37 @@ class UserController extends ResourceController{
                         'nom'           => "",
                         'prenom'        => "",
                         'login'         => "",
-                        'password'      => ""
                      ];
 
                      return $this->respond($response);
 
                 }else{
 
+                    $key = getenv('JWT_SECRET');
+                    $iat = time(); // current timestamp value
+                    $exp = $iat + 3600;
+
+                    $payload = array(
+                        "iss" => "Issuer of the JWT",
+                        "aud" => "Audience that the JWT",
+                        "sub" => "Subject of the JWT",
+                        "iat" => $iat, //Time the JWT issued at
+                        "exp" => $exp, // Expiration time of token
+                        "email" => $user['email'],
+                    );
+                      
+                    $token = JWT::encode($payload, $key, 'HS256');
+
                     $response = [
                         'success'       => true,
                         'status'        => 200,
                         'msg'           => 'Login Succesful.',
-                        'token'         => "qwertyuiop",
+                        'token'         => $token,
                         'type_user'     => $user['type_user'],
                         'id_user'       => $user['id_user'],
                         'nom'           => $user['nom'],
                         'prenom'        => $user['prenom'],
                         'login'         => $user['login'],
-                        'password '     => $password 
                      ];
                      
                     return $this->respond($response);
@@ -199,7 +394,6 @@ class UserController extends ResourceController{
                 'nom'           => "",
                 'prenom'        => "",
                 'login'         => "",
-                'password'      => ""
              ];
 
              return $this->respond($response);
@@ -235,38 +429,13 @@ class UserController extends ResourceController{
 
         }
 
-        return $this->respond($data_final);
+        $donnees = [
+            'count'     => sizeof($data_final),
+            'allAgence' => $data_final,
+        ];
+
+        return $this->respond($donnees);
     }
     
-
-    public function desable($id = null) {
-        $data = [
-            'update_at'     => date('Y-m-d H:i:s'),
-            'status_user'   => 1,
-        ];
-        
-        $result = $this->model->update($id, $data);
-        if ($result) {
-            $response = ['status' => 200, 'error' => false];
-        } else {
-            $response = ['status' => 500, 'error' => true];
-        }
-        return $this->respond($response);
-    }
-
-    public function enable($id = null) {
-        $data = [
-            'update_at'     => date('Y-m-d H:i:s'),
-            'status_user'   => 0,
-        ];
-        
-        $result = $this->model->update($id, $data);
-        if ($result) {
-            $response = ['status' => 200, 'error' => false];
-        } else {
-            $response = ['status' => 500, 'error' => true];
-        }
-        return $this->respond($response);
-    }
 
 }

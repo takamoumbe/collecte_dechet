@@ -50,7 +50,6 @@ class TachesModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-<<<<<<< HEAD
     /*
      * --------------------------------------------------------------------
      * Function for mobile
@@ -95,6 +94,7 @@ class TachesModel extends Model
         return $data_final;
 
     }
+    
 
     public function tacheEffectuer($idUser){
         // data
@@ -132,7 +132,7 @@ class TachesModel extends Model
 
 
         return $data_final;
-=======
+    }
 
 
 
@@ -152,6 +152,6 @@ class TachesModel extends Model
         $builder->where('id_depot', $id);
         $query = $builder->get();
         return $query;
->>>>>>> 6033a349d12ce683c1ff737c9f21db261400f52b
     }
+
 }

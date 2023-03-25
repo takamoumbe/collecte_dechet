@@ -52,4 +52,16 @@ class UserModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function get_collecteur_search($chaine){
+
+        $builder = $this->db->table('user');
+        $builder->where('status_user', 0);
+        $builder->where('type_user', 'collecteur');
+
+        $builder->like('nom', $chaine, 'both');
+        $res = $builder->get();
+         return $res->getResultArray();
+
+    }
 }

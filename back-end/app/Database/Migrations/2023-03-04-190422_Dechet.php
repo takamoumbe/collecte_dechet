@@ -22,6 +22,9 @@ class Dechet extends Migration
             'description'       => [                                 
                 'type'                  => 'TEXT', 
             ],
+            'photo'             => [                                 
+                'type'                  => 'TEXT', 
+            ],
             'status_dechet'     => [                                 
                 'type'                  => 'INT', 
             ],
@@ -44,7 +47,7 @@ class Dechet extends Migration
 
         $this->forge->addPrimaryKey('id_dechet'); 
         $this->forge->addForeignKey('id_client', 'client', 'id_client');                        
-        $this->forge->addForeignKey('id_user', 'user', 'id_user');           
+        // $this->forge->addForeignKey('id_user', 'user', 'id_user');           
         $this->forge->createTable('dechet');                            
     }  
     

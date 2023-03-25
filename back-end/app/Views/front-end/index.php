@@ -14,12 +14,15 @@
                     <h1 class="h4 text-gray-900 mb-4">
                     </h1>
                   </div>
-                  <form class="user" action="home.php">
+                  <form class="user" id="from_login">
                     <div class="row">
                       <div class="col-md-7">
                         <img src="plugins/img/yo.jpg" class="col-md-12">
                       </div>
                       <div class="col-md-5 mt-2 col-12">
+                        <div class="alert alert-success" style="text-align: center;" id="success"></div>
+                        <div class="alert alert-danger" style="text-align: center;" id="errors"></div>
+                        <script type="text/javascript"> $("#success").hide(); $("#errors").hide();</script>
                         <div class="input-group mb-3 mt-2">
                           <input type="text" class="form-control" name="login" placeholder="Identifiants" id="login">
                           <div class="input-group-append">
@@ -29,7 +32,7 @@
                           </div>
                         </div>
                         <div class="input-group mb-3">
-                          <input type="password" class="form-control" name="password" placeholder="Password" id="password">
+                          <input type="password" class="form-control" name="password" placeholder="Password" id="password" required>
                           <div class="input-group-append">
                             <div class="input-group-text">
                               <a href="#" id="Layer_1" class="text-muted" onclick="togglePass()"><span class="fa fa-eye"></span></a>
@@ -44,7 +47,7 @@
                           </div>
                         </div>
                         <div class="form-group">
-                          <button type="submit" class="btn btn-success btn-block"  id="btn-login-adna">
+                          <button type="submit" id="btn-envoyer" class="btn btn-success btn-block">
                             Connexion <i class="fa fa-sign-in-alt"></i>
                           </button>
                         </div>
@@ -87,6 +90,10 @@
       }   
     }
   </script>
+  <script type="text/javascript">
+     localStorage.clear();
+     
+    </script>
 </body>
 
 </html>

@@ -7,7 +7,7 @@
   </a>
   <hr class="sidebar-divider my-0">
   <li class="nav-item">
-    <a class="nav-link active" href="home">
+    <a class="nav-link active" href="Home">
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>Dashboard</span></a>
     </li>
@@ -25,7 +25,7 @@
   </li>
 
   <li class="nav-item">
-    <a class="nav-link" href="List">
+    <a class="nav-link" href="<?= base_url() ?>/List">
       <i class="fas fa-fw fa-eye"></i>
       <span>Consultations</span>
     </a>

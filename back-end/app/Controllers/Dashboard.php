@@ -14,7 +14,7 @@ class Dashboard extends ResourceController {
     public function login() {
         return view('front-end/index');
     }
-   
+    
 
     public function home() {
         return view('front-end/home');

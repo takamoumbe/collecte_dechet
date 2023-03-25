@@ -20,9 +20,11 @@
 <script src="plugins/jquery.validate.js"></script>
 <script src="plugins/additional-methods.min.js"></script>
 
+<!-- function -->
+<script type="text/javascript" src="<?= base_url() ?>/plugins/js/function.js"></script>
 
 <!-- Select2 -->
-<script src="plugins/vendor/select2/dist/js/select2.min.js"></script>
+<script src="<?= base_url() ?>/plugins/select2/js/select2.min.js"></script>
 
 <script>
   $(function() {
